@@ -12,20 +12,13 @@ import java.util.Properties;
 
 public class Util {
     private static Connection connection = null;
-    private static Util instance = null;
-        final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-        final String DB_URL = "jdbc:mysql://localhost/mydbtest"; //jdbc:mysql://localhost:3306/mydbtest
-        final String DB_USERNAME = "root";
-        final String DB_PASSWORD = "Ferero365!";
 
-    public static Util getInstance() {
-        if (null == instance) {
-            instance = new Util();
-        }
-        return instance;
-    }
+        static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+        static final String DB_URL = "jdbc:mysql://localhost/mydbtest"; //jdbc:mysql://localhost:3306/mydbtest
+        static final String DB_USERNAME = "root";
+        static final String DB_PASSWORD = "Ferero365!";
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         try {
             Class.forName(DB_DRIVER);
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
