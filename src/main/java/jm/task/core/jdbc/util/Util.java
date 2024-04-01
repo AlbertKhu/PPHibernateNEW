@@ -10,24 +10,45 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.BootstrapServiceRegistry;
+import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Environment;
+import org.hibernate.query.Query;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.Service;
+import org.hibernate.service.ServiceRegistry;
+
+import javax.security.auth.login.AppConfigurationEntry;
+import java.util.List;
+
+import static org.hibernate.cfg.Environment.*;
+
 public class Util {
-    private static Connection connection = null;
+    private static final SessionFactory sessionFactory = buildSessionFactory();
 
-        static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-        static final String DB_URL = "jdbc:mysql://localhost/mydbtest"; //jdbc:mysql://localhost:3306/mydbtest
-        static final String DB_USERNAME = "root";
-        static final String DB_PASSWORD = "Ferero365!";
-
-    public static Connection getConnection() {
+    private static SessionFactory buildSessionFactory() {
         try {
-            Class.forName(DB_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            System.out.println("Connection OK");
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            System.out.println("Connection ERROR");
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.properties");
+            return configuration.buildSessionFactory(new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build());
+        } catch (Exception e) {
+            System.err.println("Инициализация SessionFactory не удалась: " + e);
+            throw new
+                    ExceptionInInitializerError(e);
         }
-        return connection;
     }
 
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public static void shutdown() {
+        getSessionFactory().close();
+    }
 }
