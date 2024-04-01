@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-
+//2
 public class UserDaoHibernateImpl implements UserDao {
     //private final SessionFactory sessionFactory;
 
