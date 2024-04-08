@@ -1,6 +1,5 @@
 package jm.task.core.jdbc.dao;
 
-import com.mysql.cj.Query;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
@@ -9,7 +8,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-//2
+
 public class UserDaoHibernateImpl implements UserDao {
     //private final SessionFactory sessionFactory;
 
@@ -17,15 +16,22 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-
     @Override
     public void createUsersTable() {
-
+        Session session = Util.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.createSQLQuery("CREATE TABLE IF NOT EXIST users (id INT PRIMARY KEY, name VARCHAR(250), lastName VARCHAR(250), age BYTE)").executeUpdate();
+        transaction.commit();
+        session.close();
     }
 
     @Override
     public void dropUsersTable() {
-
+        Session session = Util.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.createSQLQuery("DROP TABLE IF EXIST users").executeUpdate();
+        transaction.commit();
+        session.close();
     }
 
     @Override

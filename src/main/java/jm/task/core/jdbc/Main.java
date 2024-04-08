@@ -3,31 +3,6 @@ package jm.task.core.jdbc;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
-import org.hibernate.*;
-import org.hibernate.boot.spi.SessionFactoryOptions;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.engine.spi.FilterDefinition;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.metadata.CollectionMetadata;
-import org.hibernate.stat.Statistics;
-//import jm.task.core.jdbc.util.Util;
-
-import javax.naming.NamingException;
-import javax.naming.Reference;
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceUnitUtil;
-import javax.persistence.SynchronizationType;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.sql.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.Executor;
-
-import static jm.task.core.jdbc.model.User.getName;
-//8
 
 public class Main {
 
