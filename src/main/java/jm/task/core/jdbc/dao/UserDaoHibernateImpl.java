@@ -5,12 +5,14 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
 import java.util.List;
+
 import static org.hibernate.resource.transaction.spi.TransactionStatus.ACTIVE;
 import static org.hibernate.resource.transaction.spi.TransactionStatus.MARKED_ROLLBACK;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private final SessionFactory session = null;
+    private final SessionFactory session = (SessionFactory) Util.getSessionFactory().openSession();
 
     public UserDaoHibernateImpl() {
 
@@ -23,15 +25,11 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session.createSQLQuery("CREATE TABLE IF NOT EXIST users (id INT PRIMARY KEY, name VARCHAR(250), lastName VARCHAR(250), age BYTE)").executeUpdate();
             transaction.commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            transaction.rollback();
-        }
-        finally {
+        } finally {
             session.close();
         }
-
     }
 
     @Override
@@ -41,12 +39,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session.createSQLQuery("DROP TABLE IF EXIST users").executeUpdate();
             transaction.commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            transaction.rollback();
-        }
-        finally {
+        } finally {
             session.close();
         }
 
