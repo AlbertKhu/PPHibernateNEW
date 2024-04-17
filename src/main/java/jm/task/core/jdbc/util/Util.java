@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import java.util.Properties;
 
 public class Util {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    public static final SessionFactory sessionFactory = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
         try {
