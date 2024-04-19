@@ -2,11 +2,16 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import java.util.List;
-import static jm.task.core.jdbc.util.Util.sessionFactory;
+
+import static jm.task.core.jdbc.util.Util.buildSessionFactory;
+//import static jm.task.core.jdbc.util.Util.sessionFactory;
 
 public class UserDaoHibernateImpl implements UserDao {
+
+    public SessionFactory sessionFactory = buildSessionFactory();
 
     public UserDaoHibernateImpl() {
 
@@ -40,6 +45,7 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction transaction = session.beginTransaction();
             session.save("user");
             transaction.commit();
+            transaction.rollback();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,6 +60,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.delete(user);
             }
             transaction.commit();
+            transaction.rollback();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,10 +68,15 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = sessionFactory.openSession();
-        List<User> users = session.createQuery("FROM User", User.class).list();
-        session.close();
-        return users;
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            List<User> users = session.createQuery("FROM User", User.class).list();
+            transaction.commit();
+            return users;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -73,6 +85,7 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction transaction = session.beginTransaction();
             session.createQuery("DELETE FROM User").executeUpdate();
             transaction.commit();
+            transaction.rollback();
         } catch (Exception e) {
             e.printStackTrace();
         }

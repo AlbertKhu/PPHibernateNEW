@@ -8,9 +8,8 @@ import org.w3c.dom.Document;
 import java.util.Properties;
 
 public class Util {
-    public static final SessionFactory sessionFactory = buildSessionFactory();
 
-    private static SessionFactory buildSessionFactory() {
+    public static SessionFactory buildSessionFactory() {
         try {
             Properties properties = new Properties();
             properties.put(Environment.DIALECT, "org.hibernate.dialect.Oracle9Dialect");
@@ -33,7 +32,7 @@ public class Util {
     }
 
     public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+        return getSessionFactory();
     }
 
     public static void shutdown() {
