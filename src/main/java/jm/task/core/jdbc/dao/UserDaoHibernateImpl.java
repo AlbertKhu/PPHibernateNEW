@@ -5,9 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import java.util.List;
-
 import static jm.task.core.jdbc.util.Util.buildSessionFactory;
-//import static jm.task.core.jdbc.util.Util.sessionFactory;
 
 public class UserDaoHibernateImpl implements UserDao {
 
